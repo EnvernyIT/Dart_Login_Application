@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:sampleapp/pages/events.dart';
 import 'package:sampleapp/pages/home_page.dart';
 import 'package:sampleapp/pages/login_page.dart';
@@ -10,8 +11,18 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   // This widget is the root of your application.
   @override
@@ -22,12 +33,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Poppins',
         primaryColor: Colors.white,
-        floatingActionButtonTheme: FloatingActionButtonThemeData(
+        floatingActionButtonTheme: const FloatingActionButtonThemeData(
           elevation: 0,
           foregroundColor: Colors.white,
         ),
         accentColor: Colors.blueAccent,
-        textTheme: TextTheme(
+        textTheme: const TextTheme(
           headline1: TextStyle(fontSize: 22.0, color: Colors.blueAccent),
           headline2: TextStyle(
             fontSize: 24.0,

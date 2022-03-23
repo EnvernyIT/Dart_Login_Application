@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:sampleapp/backend/api/api_service.dart';
 import 'package:sampleapp/backend/model/login_model.dart';
 import 'package:sampleapp/backend/model/user_model.dart';
-import 'package:sampleapp/backend/services/storage.dart';
 import 'package:sampleapp/pages/components/progressHUD.dart';
 import 'package:sampleapp/pages/home_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({
@@ -19,11 +19,15 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final SecureStorage secureStorage = SecureStorage();
   final scaffoldKey = GlobalKey<ScaffoldState>();
   GlobalKey<FormState> globalFormKey = GlobalKey<FormState>();
   bool hidePassword = true;
+
   bool? checkedValue = false;
+  final TextEditingController _urlController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
   late LoginRequestModel requestModel;
   bool isApiCallProcess = false;
   String value = "Nederlands";
@@ -36,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     super.initState();
     requestModel = LoginRequestModel();
-    init();
+    _loadUrlUsernameAndPassword();
   }
 
   @override
@@ -90,8 +94,9 @@ class _LoginPageState extends State<LoginPage> {
                           height: 20,
                         ),
                         TextFormField(
-                          initialValue:
-                              "http://10.0.2.2:8080/module.web/rest/api/v1/authenticate/authenticate-user",
+                          controller: _urlController,
+                          // initialValue:
+                          //     "http://10.0.2.2:8080/module.web/rest/api/v1/authenticate/authenticate-user",
                           keyboardType: TextInputType.url,
                           onSaved: (input) => requestModel.url = input,
                           validator: (input) {
@@ -121,7 +126,8 @@ class _LoginPageState extends State<LoginPage> {
                           height: 20,
                         ),
                         TextFormField(
-                          initialValue: "Administrator",
+                          controller: _usernameController,
+                          // initialValue: "Administrator",
                           keyboardType: TextInputType.text,
                           onSaved: (input) => requestModel.username = input,
                           validator: (input) {
@@ -151,7 +157,8 @@ class _LoginPageState extends State<LoginPage> {
                           height: 20,
                         ),
                         TextFormField(
-                          initialValue: "W3lcome!",
+                          controller: _passwordController,
+                          // initialValue: "W3lcome!",
                           keyboardType: TextInputType.text,
                           onSaved: (input) => requestModel.password = input,
                           validator: (input) {
@@ -284,14 +291,6 @@ class _LoginPageState extends State<LoginPage> {
                                     MaterialPageRoute(
                                         builder: (context) => const HomePage()),
                                   );
-                                  if (checkedValue == true) {
-                                    secureStorage.writeSecureData(
-                                        "url", requestModel.url);
-                                    secureStorage.writeSecureData(
-                                        "username", requestModel.username);
-                                    secureStorage.writeSecureData(
-                                        "password", requestModel.password);
-                                  }
                                 } else {
                                   setState(() {
                                     isApiCallProcess = false;
@@ -304,10 +303,6 @@ class _LoginPageState extends State<LoginPage> {
                                       .showSnackBar(snackBar);
                                 }
                               });
-                              // print(requestModel.toJson());
-                              // UserModel? user = LoggedInUser.loggedInUser;
-                              // print(LoggedInUser.loggedInUser);
-                              // print(LoggedInUser.loggedIn);
                             }
                           }),
                           child: const Text(
@@ -333,9 +328,7 @@ class _LoginPageState extends State<LoginPage> {
                                 width: 24.0,
                                 child: Checkbox(
                                     value: checkedValue,
-                                    onChanged: (value) {
-                                      setState(() => checkedValue = value);
-                                    })),
+                                    onChanged: _handleRememberme)),
                           ],
                         ),
                       ],
@@ -348,6 +341,48 @@ class _LoginPageState extends State<LoginPage> {
         )));
   }
 
+  //handle remember me function
+  void _handleRememberme(bool? value) {
+    checkedValue = value;
+    SharedPreferences.getInstance().then(
+      (prefs) {
+        prefs.setBool("remember_me", value!);
+        prefs.setString('url', _urlController.text);
+        prefs.setString('username', _usernameController.text);
+        prefs.setString('password', _passwordController.text);
+      },
+    );
+    setState(() {
+      checkedValue = value;
+    });
+  }
+
+  //load email and password
+  void _loadUrlUsernameAndPassword() async {
+    try {
+      // SharedPreferences _prefs = await SharedPreferences.getInstance();
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      var _url = preferences.getString("url") ?? "";
+      var _username = preferences.getString("username") ?? "";
+      var _password = preferences.getString("password") ?? "";
+      var _rememberMe = preferences.getBool("remember_me") ?? false;
+      print(_rememberMe);
+      print(_url);
+      print(_username);
+      print(_password);
+      if (_rememberMe) {
+        setState(() {
+          checkedValue = true;
+        });
+        _urlController.text = _url ?? "";
+        _usernameController.text = _username ?? "";
+        _passwordController.text = _password ?? "";
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   bool validateAndSave() {
     final form = globalFormKey.currentState;
     if (form != null) {
@@ -357,15 +392,5 @@ class _LoginPageState extends State<LoginPage> {
       }
     }
     return false;
-  }
-
-  Future init() async {
-    final url = await SecureStorage.readSecureURLData() ?? '';
-    final username = await SecureStorage.readSecureUsernameData() ?? '';
-    final password = await SecureStorage.readSecurePasswordData() ?? '';
-
-    print(url);
-    print(username);
-    print(password);
   }
 }

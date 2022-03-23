@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sampleapp/backend/model/user_model.dart';
-import '../../backend/services/storage.dart';
 import '../routes/routes.dart';
 
 class NavBar extends StatelessWidget {
   NavBar({Key? key}) : super(key: key);
-  final SecureStorage secureStorage = SecureStorage();
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +42,6 @@ class NavBar extends StatelessWidget {
               text: 'Logout',
               onTap: () => {
                     Navigator.pushReplacementNamed(context, Routes.login),
-                    secureStorage.deleteAllSecureData(),
                   }),
           const SizedBox(
             height: 30,
