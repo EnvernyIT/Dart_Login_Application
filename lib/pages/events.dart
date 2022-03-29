@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:sampleapp/pages/components/navbar.dart';
+import 'package:sampleapp/pages/routes/routes.dart';
+
+import 'components/bottomBar.dart';
 
 class EventsPage extends StatefulWidget {
   static const String routeName = '/events';
+  static const String title = 'Events';
 
   const EventsPage({Key? key}) : super(key: key);
 
@@ -16,9 +20,36 @@ class _EventsPageState extends State<EventsPage> {
     return Scaffold(
         appBar: AppBar(
           title: const Text("Events"),
+          actions: [
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.notifications_none),
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.search),
+            )
+          ],
         ),
+        bottomNavigationBar: const BottomBar(),
         drawer: NavBar(),
-        body: const Center(child: Text("Events")));
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text("Events"),
+              TextButton.icon(
+                onPressed: () =>
+                    Navigator.pushReplacementNamed(context, Routes.list),
+                icon: const Icon(
+                  Icons.list,
+                  size: 24,
+                ),
+                label: const Text("List"),
+              )
+            ],
+          ),
+        ));
   }
 
   @override

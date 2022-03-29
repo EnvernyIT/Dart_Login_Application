@@ -26,6 +26,16 @@ class NavBar extends StatelessWidget {
             onTap: () => Navigator.pushReplacementNamed(context, Routes.home),
           ),
           createDrawerItem(
+            icon: Icons.home,
+            text: 'Notes',
+            onTap: () => Navigator.pushReplacementNamed(context, Routes.notes),
+          ),
+          createDrawerItem(
+            icon: Icons.home,
+            text: 'Events',
+            onTap: () => Navigator.pushReplacementNamed(context, Routes.events),
+          ),
+          createDrawerItem(
             icon: Icons.person,
             text: 'Profile',
             onTap: () =>

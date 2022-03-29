@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:sampleapp/pages/events.dart';
 import 'package:sampleapp/pages/home_page.dart';
+import 'package:sampleapp/pages/list_page.dart';
 import 'package:sampleapp/pages/login_page.dart';
 import 'package:sampleapp/pages/notes.dart';
 import 'package:sampleapp/pages/profile.dart';
@@ -59,7 +59,8 @@ class _MyAppState extends State<MyApp> {
         '/events': (context) => const EventsPage(),
         '/notes': (context) => const NotesPage(),
         '/profile': (context) => const ProfilePage(),
-        '/settings': (context) => SettingsPage(),
+        '/settings': (context) => const SettingsPage(),
+        '/list': (context) => const ListPage(),
         '/login': (context) => const LoginPage(),
       },
     );

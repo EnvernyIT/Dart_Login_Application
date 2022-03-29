@@ -8,7 +8,7 @@ class ProgressHUD extends StatelessWidget {
   final Color color;
   final Animation<Color>? valueColor;
 
-  ProgressHUD({
+  const ProgressHUD({
     Key? key,
     @required this.child,
     @required this.inAsyncCall,
@@ -22,13 +22,13 @@ class ProgressHUD extends StatelessWidget {
     List<Widget> widgetList = <Widget>[];
     widgetList.add(child!);
     if (inAsyncCall!) {
-      final modal = new Stack(
+      final modal = Stack(
         children: [
-          new Opacity(
+          Opacity(
             opacity: opacity,
             child: ModalBarrier(dismissible: false, color: color),
           ),
-          new Center(child: new CircularProgressIndicator()),
+          const Center(child: CircularProgressIndicator()),
         ],
       );
       widgetList.add(modal);
