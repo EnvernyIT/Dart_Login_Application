@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class BottomBar extends StatelessWidget {
-  const BottomBar({Key? key}) : super(key: key);
+class BottomMailBar extends StatelessWidget {
+  const BottomMailBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,21 +19,21 @@ class BottomBar extends StatelessWidget {
           children: <Widget>[
             IconButton(
               icon: const Icon(
-                Icons.home,
+                Icons.inbox,
                 color: Colors.blueAccent,
               ),
               onPressed: () {},
             ),
             IconButton(
-              icon: const Icon(Icons.blur_on, color: Colors.blueAccent),
+              icon: const Icon(Icons.outbox, color: Colors.blueAccent),
               onPressed: () {},
             ),
             IconButton(
-              icon: const Icon(Icons.hotel, color: Colors.blueAccent),
+              icon: const Icon(Icons.drafts, color: Colors.blueAccent),
               onPressed: () {},
             ),
             IconButton(
-              icon: const Icon(Icons.account_box, color: Colors.blueAccent),
+              icon: const Icon(Icons.delete, color: Colors.blueAccent),
               onPressed: () {},
             )
           ],

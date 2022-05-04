@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import '../theme/theme.dart';
+
 class ProgressHUD extends StatelessWidget {
   final Widget? child;
   final bool? inAsyncCall;
   final double opacity;
-  final Color color;
+  final Color color = RainbowTheme.primary_1;
   final Animation<Color>? valueColor;
 
-  const ProgressHUD({
+  ProgressHUD({
     Key? key,
     @required this.child,
     @required this.inAsyncCall,
     this.opacity = 0.3,
-    this.color = Colors.blueAccent,
     this.valueColor,
   }) : super(key: key);
 

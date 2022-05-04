@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sampleapp/pages/components/navbar.dart';
+import 'package:sampleapp/pages/theme/theme.dart';
 
 class ProfilePage extends StatefulWidget {
   static const String routeName = '/profile';
@@ -17,7 +18,11 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
+          elevation: 0,
           title: const Text("Profile"),
+          foregroundColor: RainbowTheme.primary_1,
+          bottomOpacity: 0,
+          backgroundColor: RainbowTheme.secondary,
           actions: [
             IconButton(
               onPressed: () {},
@@ -28,12 +33,11 @@ class _ProfilePageState extends State<ProfilePage> {
               icon: const Icon(Icons.search),
             )
           ],
-          backgroundColor: Colors.blueAccent,
         ),
         drawer: NavBar(),
         body: Image.network(
           'https://images.unsplash.com/photo-1478760329108-5c3ed9d495a0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80',
-          fit: BoxFit.cover,
+          fit: BoxFit.fill,
           width: double.infinity,
           height: double.infinity,
         ));

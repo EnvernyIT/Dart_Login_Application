@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:sampleapp/pages/ThemeListPage.dart';
+import 'package:sampleapp/pages/addMeeting.dart';
+import 'package:sampleapp/pages/addReminder.dart';
+import 'package:sampleapp/pages/addTask.dart';
+import 'package:sampleapp/pages/addVerlof.dart';
 import 'package:sampleapp/pages/events.dart';
-import 'package:sampleapp/pages/home_page.dart';
+import 'package:sampleapp/pages/calenderPage.dart';
 import 'package:sampleapp/pages/list_page.dart';
 import 'package:sampleapp/pages/login_page.dart';
-import 'package:sampleapp/pages/notes.dart';
+import 'package:sampleapp/pages/mailpage.dart';
 import 'package:sampleapp/pages/profile.dart';
+import 'package:sampleapp/pages/readMail.dart';
+import 'package:sampleapp/pages/sendMail.dart';
 import 'package:sampleapp/pages/settings.dart';
+import 'package:splashscreen/splashscreen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -52,15 +60,41 @@ class _MyAppState extends State<MyApp> {
           ),
         ),
       ),
-      home: const LoginPage(),
-      initialRoute: '/login',
+      home: SplashScreen(
+        seconds: 8,
+        navigateAfterSeconds: LoginPage(),
+        backgroundColor: Colors.white,
+        image: Image.asset('assets/images/rainbow.png'),
+        photoSize: 150.0,
+        title: const Text(
+          "version - 1.0.1",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              color: Colors.black,
+              fontSize: 20.0,
+              fontWeight: FontWeight.w500,
+              fontStyle: FontStyle.normal),
+        ),
+        loaderColor: Colors.blueAccent,
+        useLoader: true,
+      ),
+      // initialRoute: '/login',
       routes: {
-        '/home': (context) => const HomePage(),
+        '/calender': (context) => const CalenderPage(),
         '/events': (context) => const EventsPage(),
-        '/notes': (context) => const NotesPage(),
+        '/mail': (context) => const MailPage(),
         '/profile': (context) => const ProfilePage(),
         '/settings': (context) => const SettingsPage(),
         '/list': (context) => const ListPage(),
+        '/addVerlof': (context) => const AddVerlofPage(),
+        '/addTask': (context) => const AddTaskPage(),
+        '/addReminder': (context) => const AddReminderPage(),
+        '/addMeeting': (context) => const AddMeetingPage(),
+        '/readMail': (context) => ReadMailPage(
+              io: null,
+            ),
+        '/chooseTheme': (context) => ThemeListPage(),
+        '/sendMail': (context) => SendMailPage(),
         '/login': (context) => const LoginPage(),
       },
     );

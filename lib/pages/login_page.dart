@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:sampleapp/backend/api/api_service.dart';
-import 'package:sampleapp/backend/model/login_model.dart';
-import 'package:sampleapp/backend/model/user_model.dart';
+import 'package:sampleapp/backend/api/ApiService.dart';
+import 'package:sampleapp/backend/models/LoginModel.dart';
+import 'package:sampleapp/backend/models/UserModel.dart';
 import 'package:sampleapp/pages/components/progressHUD.dart';
-import 'package:sampleapp/pages/home_page.dart';
+import 'package:sampleapp/pages/calenderPage.dart';
+import 'package:sampleapp/pages/theme/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
@@ -30,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
 
   late LoginRequestModel requestModel;
   bool isApiCallProcess = false;
-  String value = "Nederlands";
+  String value = "English";
   var items = [
     'Nederlands',
     'English',
@@ -46,13 +47,13 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return ProgressHUD(
-        child: uiBuild(context), inAsyncCall: isApiCallProcess, opacity: 0.3);
+        child: uiBuild(context), inAsyncCall: isApiCallProcess, opacity: 0.5);
   }
 
   Widget uiBuild(BuildContext context) {
     return Scaffold(
         key: scaffoldKey,
-        backgroundColor: Theme.of(context).accentColor,
+        backgroundColor: RainbowTheme.primary_1,
         body: SingleChildScrollView(
             child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -67,10 +68,10 @@ class _LoginPageState extends State<LoginPage> {
                       const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: Theme.of(context).primaryColor,
+                    color: RainbowTheme.secondary,
                     boxShadow: [
                       BoxShadow(
-                          color: Theme.of(context).hintColor.withOpacity(0.2),
+                          color: RainbowTheme.hint.withOpacity(0.2),
                           offset: Offset(0, 10),
                           blurRadius: 20)
                     ],
@@ -88,15 +89,13 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         Text(
                           "Welcome",
-                          style: Theme.of(context).textTheme.headline2,
+                          style: RainbowTheme.colorTitle,
                         ),
                         const SizedBox(
                           height: 20,
                         ),
                         TextFormField(
                           controller: _urlController,
-                          // initialValue:
-                          //     "http://10.0.2.2:8080/module.web/rest/api/v1/authenticate/authenticate-user",
                           keyboardType: TextInputType.url,
                           onSaved: (input) => requestModel.url = input,
                           validator: (input) {
@@ -108,18 +107,16 @@ class _LoginPageState extends State<LoginPage> {
                             hintText: "URL",
                             enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
-                                color: Theme.of(context)
-                                    .accentColor
-                                    .withOpacity(0.2),
+                                color: RainbowTheme.primary_1.withOpacity(0.2),
                               ),
                             ),
                             focusedBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
-                                color: Theme.of(context).accentColor,
+                                color: RainbowTheme.primary_1,
                               ),
                             ),
-                            prefixIcon: Icon(Icons.link,
-                                color: Theme.of(context).accentColor),
+                            prefixIcon:
+                                Icon(Icons.link, color: RainbowTheme.variant),
                           ),
                         ),
                         const SizedBox(
@@ -127,7 +124,6 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         TextFormField(
                           controller: _usernameController,
-                          // initialValue: "Administrator",
                           keyboardType: TextInputType.text,
                           onSaved: (input) => requestModel.username = input,
                           validator: (input) {
@@ -139,18 +135,16 @@ class _LoginPageState extends State<LoginPage> {
                             hintText: "Username",
                             enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
-                                color: Theme.of(context)
-                                    .accentColor
-                                    .withOpacity(0.2),
+                                color: RainbowTheme.primary_1.withOpacity(0.2),
                               ),
                             ),
                             focusedBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
-                                color: Theme.of(context).accentColor,
+                                color: RainbowTheme.primary_1,
                               ),
                             ),
-                            prefixIcon: Icon(Icons.person,
-                                color: Theme.of(context).accentColor),
+                            prefixIcon:
+                                Icon(Icons.person, color: RainbowTheme.variant),
                           ),
                         ),
                         const SizedBox(
@@ -172,19 +166,17 @@ class _LoginPageState extends State<LoginPage> {
                             hintText: "Password",
                             enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
-                                color: Theme.of(context)
-                                    .accentColor
-                                    .withOpacity(0.2),
+                                color: RainbowTheme.primary_1.withOpacity(0.2),
                               ),
                             ),
                             focusedBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
-                                color: Theme.of(context).accentColor,
+                                color: RainbowTheme.primary_1,
                               ),
                             ),
                             prefixIcon: Icon(
                               Icons.lock,
-                              color: Theme.of(context).accentColor,
+                              color: RainbowTheme.variant,
                             ),
                             suffixIcon: IconButton(
                               onPressed: () {
@@ -192,9 +184,7 @@ class _LoginPageState extends State<LoginPage> {
                                   hidePassword = !hidePassword;
                                 });
                               },
-                              color: Theme.of(context)
-                                  .accentColor
-                                  .withOpacity(0.4),
+                              color: RainbowTheme.variant.withOpacity(0.4),
                               icon: Icon(hidePassword
                                   ? Icons.visibility_off
                                   : Icons.visibility),
@@ -206,19 +196,18 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         DropdownButton(
                             value: value,
-                            // icon: const Icon(Icons.keyboard_arrow_down),
                             icon: const Padding(
                                 //Icon at tail, arrow bottom is default icon
                                 padding: EdgeInsets.only(left: 20),
                                 child: Icon(Icons.arrow_circle_down_sharp)),
                             iconEnabledColor:
-                                Theme.of(context).accentColor, //Icon color
-                            style: const TextStyle(
-                                color: Colors.blueAccent, //Font color
+                                RainbowTheme.primary_1, //Icon color
+                            style: TextStyle(
+                                color: RainbowTheme.primary_1, //Font color
                                 fontSize: 17 //font size on dropdown button
                                 ),
-                            dropdownColor:
-                                Colors.white, //dropdown background color
+                            dropdownColor: RainbowTheme
+                                .secondary, //dropdown background color
                             underline: Container(), //remove underline
                             isExpanded: false, //make true to make width 100%
 
@@ -243,7 +232,7 @@ class _LoginPageState extends State<LoginPage> {
                               vertical: 12,
                               horizontal: 80,
                             ),
-                            backgroundColor: Theme.of(context).accentColor,
+                            backgroundColor: RainbowTheme.primary_1,
                             shape: const StadiumBorder(),
                           ),
                           onPressed: (() {
@@ -289,7 +278,7 @@ class _LoginPageState extends State<LoginPage> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => const HomePage()),
+                                        builder: (context) => CalenderPage()),
                                   );
                                 } else {
                                   setState(() {
@@ -310,13 +299,16 @@ class _LoginPageState extends State<LoginPage> {
                             style: TextStyle(color: Colors.white),
                           ),
                         ),
+                        SizedBox(
+                          height: 10,
+                        ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Text(
+                            Text(
                               "Remember Me",
                               style: TextStyle(
-                                  color: Colors.blueAccent, //Font color
+                                  color: RainbowTheme.primary_1, //Font color
                                   fontSize: 17 //font size on dropdown button
                                   ),
                             ),
@@ -327,6 +319,8 @@ class _LoginPageState extends State<LoginPage> {
                                 height: 24.0,
                                 width: 24.0,
                                 child: Checkbox(
+                                    checkColor: RainbowTheme.secondary,
+                                    activeColor: RainbowTheme.primary_1,
                                     value: checkedValue,
                                     onChanged: _handleRememberme)),
                           ],
@@ -366,17 +360,17 @@ class _LoginPageState extends State<LoginPage> {
       var _username = preferences.getString("username") ?? "";
       var _password = preferences.getString("password") ?? "";
       var _rememberMe = preferences.getBool("remember_me") ?? false;
-      print(_rememberMe);
-      print(_url);
-      print(_username);
-      print(_password);
+      // print(_rememberMe);
+      // print(_url);
+      // print(_username);
+      // print(_password);
       if (_rememberMe) {
         setState(() {
           checkedValue = true;
         });
-        _urlController.text = _url ?? "";
-        _usernameController.text = _username ?? "";
-        _passwordController.text = _password ?? "";
+        _urlController.text = _url;
+        _usernameController.text = _username;
+        _passwordController.text = _password;
       }
     } catch (e) {
       print(e);

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:sampleapp/backend/data/list_items.dart';
-import 'package:sampleapp/backend/model/employeeModel.dart';
+import 'package:sampleapp/backend/data/ListItems.dart';
+import 'package:sampleapp/backend/models/employeeModel.dart';
+import 'package:sampleapp/pages/theme/theme.dart';
 
-import '../backend/model/list_item_widget.dart';
+import '../backend/models/ListItemWidget.dart';
 
 class ListPage extends StatefulWidget {
   static const String routeName = '/list';
@@ -28,7 +29,11 @@ class _ListPageState extends State<ListPage> {
   Widget listBuild(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+          elevation: 0,
           title: const Text("List"),
+          foregroundColor: RainbowTheme.primary_1,
+          bottomOpacity: 0,
+          backgroundColor: RainbowTheme.secondary,
           actions: [
             IconButton(
               onPressed: () {},

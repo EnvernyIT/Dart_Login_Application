@@ -1,4 +1,4 @@
-import '../model/employeeModel.dart';
+import '../models/employeeModel.dart';
 
 final List<EmployeeModel> listItems = [
   EmployeeModel(firstName: "Enverny", lastName: "Iengibe"),

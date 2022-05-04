@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:sampleapp/backend/model/login_model.dart';
+import 'package:sampleapp/backend/models/LoginModel.dart';
 
 class APIService {
   Future<LoginResponseModel> login(LoginRequestModel loginRequestModel) async {

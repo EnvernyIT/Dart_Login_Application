@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:sampleapp/backend/model/user_model.dart';
+import 'package:sampleapp/backend/model/UserModel.dart';
 import '../routes/routes.dart';
+import '../theme/theme.dart';
 
 class NavBar extends StatelessWidget {
   NavBar({Key? key}) : super(key: key);
-
+  static const String _imageUrl = "assets/images/rainbow.png";
   @override
   Widget build(BuildContext context) {
     if (LoggedInUser.role != null) {
@@ -15,40 +16,42 @@ class NavBar extends StatelessWidget {
 
   Widget createDrawer(BuildContext context) {
     return Drawer(
+      backgroundColor: RainbowTheme.secondary,
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
           createHeader(),
-          createUserName(),
+          // createUserName(),
           createDrawerItem(
-            icon: Icons.home,
-            text: 'Home',
-            onTap: () => Navigator.pushReplacementNamed(context, Routes.home),
+            icon: Icons.calendar_month_outlined,
+            text: 'Calender',
+            onTap: () =>
+                Navigator.pushReplacementNamed(context, Routes.calendar),
           ),
           createDrawerItem(
-            icon: Icons.home,
-            text: 'Notes',
-            onTap: () => Navigator.pushReplacementNamed(context, Routes.notes),
+            icon: Icons.mail_outline,
+            text: 'Mail',
+            onTap: () => Navigator.pushReplacementNamed(context, Routes.mail),
           ),
           createDrawerItem(
-            icon: Icons.home,
+            icon: Icons.event_outlined,
             text: 'Events',
             onTap: () => Navigator.pushReplacementNamed(context, Routes.events),
           ),
           createDrawerItem(
-            icon: Icons.person,
+            icon: Icons.person_outline_outlined,
             text: 'Profile',
             onTap: () =>
                 Navigator.pushReplacementNamed(context, Routes.profile),
           ),
           createDrawerItem(
-            icon: Icons.settings,
+            icon: Icons.settings_outlined,
             text: 'Settings',
             onTap: () =>
                 Navigator.pushReplacementNamed(context, Routes.settings),
           ),
           createDrawerItem(
-              icon: Icons.logout,
+              icon: Icons.logout_outlined,
               text: 'Logout',
               onTap: () => {
                     Navigator.pushReplacementNamed(context, Routes.login),
@@ -71,104 +74,103 @@ class NavBar extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: <Widget>[
           createHeader(),
-          createUserName(),
+          // createUserName(),
           createDrawerItem(
-            icon: Icons.home,
-            text: 'Home',
-            onTap: () => Navigator.pushReplacementNamed(context, Routes.home),
+            icon: Icons.calendar_month_outlined,
+            text: 'Calendar',
+            onTap: () =>
+                Navigator.pushReplacementNamed(context, Routes.calendar),
           ),
           createDrawerItem(
-            icon: Icons.calendar_month,
+            icon: Icons.mail_outline,
+            text: 'Mail',
+            onTap: () => Navigator.pushReplacementNamed(context, Routes.mail),
+          ),
+          createDrawerItem(
+            icon: Icons.calendar_month_outlined,
             text: 'Events',
             onTap: () => Navigator.pushReplacementNamed(context, Routes.events),
           ),
           createDrawerItem(
-            icon: Icons.notes,
-            text: 'Notes',
-            onTap: () => Navigator.pushReplacementNamed(context, Routes.notes),
-          ),
-          createDrawerItem(
-            icon: Icons.person,
+            icon: Icons.person_outline,
             text: 'Profile',
             onTap: () =>
                 Navigator.pushReplacementNamed(context, Routes.profile),
           ),
           createDrawerItem(
-            icon: Icons.settings,
+            icon: Icons.settings_outlined,
             text: 'Settings',
             onTap: () =>
                 Navigator.pushReplacementNamed(context, Routes.settings),
           ),
           createDrawerItem(
-            icon: Icons.logout,
+            icon: Icons.logout_outlined,
             text: 'Logout',
             onTap: () {
               Navigator.pushReplacementNamed(context, Routes.login);
             },
           ),
           const SizedBox(
-            height: 30,
+            height: 35,
           ),
-          ListTile(
-            title: const Text('created by BLU-DOTS'),
-            onTap: () {},
+          Container(
+            alignment: Alignment.bottomCenter,
+            color: Colors.blueGrey,
+            child: const Text(
+              'created by BLU-DOTS',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            height: 50,
           )
         ],
       ),
     );
   }
 
-  SizedBox createUserName() {
-    String? lala = "Hello, ";
-    if (LoggedInUser.loggedInUser?.firstName == null) {
-      lala += 'Hello, User';
-    } else {
-      lala += LoggedInUser.loggedInUser?.firstName ?? "";
-    }
-
-    return SizedBox(
-      height: 30,
-      child: Stack(children: <Widget>[
-        Positioned(
-            top: 10,
-            // bottom: 2.0,
-            left: 30.0,
-            child: Text(lala,
-                style: const TextStyle(
-                    color: Color.fromARGB(255, 5, 102, 182),
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.w500))),
-      ]),
-    );
-  }
-
   Widget createHeader() {
-    String? lala = "Hello, ";
+    String username, name, lastName;
     if (LoggedInUser.loggedInUser?.firstName == null) {
-      lala += 'Hello, User';
+      username = "User";
+      name = "User";
+      lastName = "";
     } else {
-      lala += LoggedInUser.loggedInUser?.firstName ?? "";
+      username = LoggedInUser.loggedInUser?.username ?? "";
+      name = LoggedInUser.loggedInUser?.firstName ?? "";
+      lastName = LoggedInUser.loggedInUser?.lastName ?? "";
     }
-    return Container(
-        height: 250,
-        child: DrawerHeader(
-          margin: EdgeInsets.zero,
-          padding: EdgeInsets.zero,
-          decoration: const BoxDecoration(
-              image: DecorationImage(
-                  fit: BoxFit.fill,
-                  image: AssetImage('assets/images/rainbow.png'))),
-          child: Stack(children: const <Widget>[
-            Positioned(
-                bottom: 2.0,
-                left: 30.0,
-                child: Text("",
-                    style: TextStyle(
-                        color: Color.fromARGB(255, 5, 102, 182),
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.w500))),
-          ]),
-        ));
+
+    return UserAccountsDrawerHeader(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              colors: [RainbowTheme.primary_1, RainbowTheme.primary_2],
+              begin: Alignment.bottomLeft,
+              end: Alignment.topRight),
+        ),
+        accountName: Text(
+          username,
+          style: const TextStyle(
+              fontSize: 22,
+              height: 2,
+              color: Colors.white,
+              fontStyle: FontStyle.italic),
+        ),
+        accountEmail: Text(
+          name + " " + lastName,
+          style: const TextStyle(
+              fontSize: 16, color: Colors.white, fontStyle: FontStyle.italic),
+        ),
+        currentAccountPicture:
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+          CircleAvatar(
+            radius: 35.0,
+            backgroundImage: AssetImage('assets/images/blank-profile.png'),
+            backgroundColor: RainbowTheme.primary_1,
+          ),
+        ]));
   }
 
   Widget createDrawerItem(
@@ -179,13 +181,13 @@ class NavBar extends StatelessWidget {
       title: Row(children: <Widget>[
         Icon(
           icon,
-          color: const Color.fromARGB(255, 5, 102, 182),
+          color: RainbowTheme.dark_primary,
         ),
         Padding(
           padding: const EdgeInsets.only(left: 8.0),
           child: Text(text,
-              style: const TextStyle(
-                  color: Colors.blueAccent,
+              style: TextStyle(
+                  color: RainbowTheme.primary_1,
                   fontSize: 14.0,
                   fontWeight: FontWeight.normal)),
         )

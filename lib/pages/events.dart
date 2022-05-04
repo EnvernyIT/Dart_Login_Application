@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sampleapp/pages/components/navbar.dart';
 import 'package:sampleapp/pages/routes/routes.dart';
+import 'package:sampleapp/pages/theme/theme.dart';
 
-import 'components/bottomBar.dart';
+import 'components/bottomMailBar.dart';
 
 class EventsPage extends StatefulWidget {
   static const String routeName = '/events';
@@ -19,7 +20,11 @@ class _EventsPageState extends State<EventsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          elevation: 0,
           title: const Text("Events"),
+          foregroundColor: RainbowTheme.primary_1,
+          bottomOpacity: 0,
+          backgroundColor: RainbowTheme.secondary,
           actions: [
             IconButton(
               onPressed: () {},
@@ -31,7 +36,6 @@ class _EventsPageState extends State<EventsPage> {
             )
           ],
         ),
-        bottomNavigationBar: const BottomBar(),
         drawer: NavBar(),
         body: Center(
           child: Column(
