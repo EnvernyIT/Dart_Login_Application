@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:sampleapp/pages/components/navbar.dart';
 import 'package:sampleapp/pages/routes/routes.dart';
 import 'package:sampleapp/pages/theme/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SettingsPage extends StatefulWidget {
   static const String routeName = '/settings';
-  static const String title = 'Settings';
 
   const SettingsPage({Key? key}) : super(key: key);
 
@@ -18,10 +18,11 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
+    String title = AppLocalizations.of(context)!.settings;
     return Scaffold(
       appBar: AppBar(
         elevation: 0.5,
-        title: const Text(SettingsPage.title),
+        title: Text(title),
         foregroundColor: RainbowTheme.primary_1,
         bottomOpacity: 0,
         backgroundColor: RainbowTheme.secondary,
@@ -35,10 +36,10 @@ class _SettingsPageState extends State<SettingsPage> {
                 alignment: Alignment.topLeft,
                 padding: const EdgeInsets.only(left: 15),
                 height: 30,
-                child: const Text(
-                  "Style",
+                child: Text(
+                  AppLocalizations.of(context)!.style,
                   style: TextStyle(
-                    color: Colors.black,
+                    color: RainbowTheme.primary_1,
                     fontSize: 23,
                     fontWeight: FontWeight.bold,
                   ),
@@ -57,9 +58,9 @@ class _SettingsPageState extends State<SettingsPage> {
                   onTap: () {
                     Navigator.pushReplacementNamed(context, Routes.theme);
                   },
-                  title: const Text(
-                    "Theme",
-                    style: TextStyle(
+                  title: Text(
+                    AppLocalizations.of(context)!.theme,
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: 16,
                     ),
@@ -77,9 +78,9 @@ class _SettingsPageState extends State<SettingsPage> {
                   ),
                   iconColor: RainbowTheme.primary_1,
                   onTap: () {},
-                  title: const Text(
-                    "Color",
-                    style: TextStyle(
+                  title: Text(
+                    AppLocalizations.of(context)!.fontFamily,
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: 16,
                     ),
@@ -96,13 +97,30 @@ class _SettingsPageState extends State<SettingsPage> {
                     color: RainbowTheme.hint,
                   ),
                   iconColor: RainbowTheme.primary_1,
-                  onTap: () {},
-                  title: const Text(
-                    "Font Family",
-                    style: TextStyle(
+                  onTap: () {
+                    Navigator.pushReplacementNamed(context, Routes.language);
+                  },
+                  title: Text(
+                    AppLocalizations.of(context)!.language,
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: 16,
                     ),
+                  ),
+                )),
+            SizedBox(
+              height: 10.0,
+            ),
+            Container(
+                alignment: Alignment.topLeft,
+                padding: const EdgeInsets.only(left: 15),
+                height: 30,
+                child: Text(
+                  AppLocalizations.of(context)!.profile,
+                  style: TextStyle(
+                    color: RainbowTheme.primary_1,
+                    fontSize: 23,
+                    fontWeight: FontWeight.bold,
                   ),
                 )),
           ],

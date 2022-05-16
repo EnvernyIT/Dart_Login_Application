@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:sampleapp/pages/components/navbar.dart';
 import 'package:sampleapp/pages/routes/routes.dart';
 import 'package:sampleapp/pages/theme/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'components/bottomMailBar.dart';
 
 class EventsPage extends StatefulWidget {
   static const String routeName = '/events';
-  static const String title = 'Events';
 
   const EventsPage({Key? key}) : super(key: key);
 
@@ -18,10 +18,11 @@ class EventsPage extends StatefulWidget {
 class _EventsPageState extends State<EventsPage> {
   @override
   Widget build(BuildContext context) {
+    String title = AppLocalizations.of(context)!.events;
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
-          title: const Text("Events"),
+          title: Text(title),
           foregroundColor: RainbowTheme.primary_1,
           bottomOpacity: 0,
           backgroundColor: RainbowTheme.secondary,
@@ -41,7 +42,7 @@ class _EventsPageState extends State<EventsPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text("Events"),
+              Text(title),
               TextButton.icon(
                 onPressed: () =>
                     Navigator.pushReplacementNamed(context, Routes.list),
@@ -49,7 +50,7 @@ class _EventsPageState extends State<EventsPage> {
                   Icons.list,
                   size: 24,
                 ),
-                label: const Text("List"),
+                label: Text(AppLocalizations.of(context)!.list),
               )
             ],
           ),

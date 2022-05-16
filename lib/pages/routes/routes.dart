@@ -5,6 +5,7 @@ import 'package:sampleapp/pages/addVerlof.dart';
 import 'package:sampleapp/pages/profile.dart';
 import 'package:sampleapp/pages/readMail.dart';
 import 'package:sampleapp/pages/sendMail.dart';
+import 'package:sampleapp/pages/taalListPage.dart';
 
 import '../ThemeListPage.dart';
 import '../events.dart';
@@ -29,4 +30,5 @@ class Routes {
   static const String readMail = ReadMailPage.routeName;
   static const String sendMail = SendMailPage.routeName;
   static const String theme = ThemeListPage.routeName;
+  static const String language = TaalListPage.routeName;
 }

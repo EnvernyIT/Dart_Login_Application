@@ -6,6 +6,7 @@ import 'package:sampleapp/pages/components/navbar.dart';
 import 'package:sampleapp/pages/readMail.dart';
 import 'package:sampleapp/pages/routes/routes.dart';
 import 'package:sampleapp/pages/theme/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'components/MailObjects.dart';
 import '../backend/models/MailModel.dart';
@@ -13,7 +14,6 @@ import 'components/bottomMailBar.dart';
 
 class MailPage extends StatefulWidget {
   static const String routeName = '/mail';
-  static const String title = 'Mail';
 
   const MailPage({Key? key}) : super(key: key);
 
@@ -22,10 +22,11 @@ class MailPage extends StatefulWidget {
 }
 
 class _MailPageState extends State<MailPage> {
-  static String title = "Inbox";
+  static String title = "Mail";
   static int point = 0;
   @override
   Widget build(BuildContext context) {
+    // String title = AppLocalizations.of(context)!.mail;
     return Scaffold(
         backgroundColor: RainbowTheme.secondary,
         appBar: AppBar(

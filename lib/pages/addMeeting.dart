@@ -5,10 +5,10 @@ import 'package:sampleapp/pages/components/button.dart';
 import 'package:sampleapp/pages/components/inputField.dart';
 import 'package:sampleapp/pages/theme/theme.dart';
 import 'calenderPage.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddMeetingPage extends StatefulWidget {
   static const String routeName = '/addMeeting';
-  static const String title = 'Add Meeting';
 
   const AddMeetingPage({Key? key}) : super(key: key);
 
@@ -27,10 +27,11 @@ class _AddMeetingPageState extends State<AddMeetingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return uiBuild(context);
+    String title = AppLocalizations.of(context)!.addMeeting;
+    return uiBuild(context, title);
   }
 
-  Widget uiBuild(BuildContext context) {
+  Widget uiBuild(BuildContext context, String? title) {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -52,19 +53,23 @@ class _AddMeetingPageState extends State<AddMeetingPage> {
         child: Column(
           children: [
             Container(
-              child: const Text(
-                "Add Meeting",
-                style: TextStyle(
+              child: Text(
+                title!,
+                style: const TextStyle(
                     fontSize: 21,
                     fontWeight: FontWeight.w500,
                     color: Colors.black),
               ),
               alignment: Alignment.topLeft,
             ),
-            const InputField(title: "Title", hint: "Enter title here!"),
-            const InputField(title: "Note", hint: "Enter your note!"),
             InputField(
-                title: "Date",
+                title: AppLocalizations.of(context)!.title,
+                hint: AppLocalizations.of(context)!.enterTitle),
+            InputField(
+                title: AppLocalizations.of(context)!.note,
+                hint: AppLocalizations.of(context)!.enterNote),
+            InputField(
+                title: AppLocalizations.of(context)!.date,
                 hint: DateFormat.yMd().format(selectedDate),
                 widget: IconButton(
                     onPressed: () {
@@ -77,7 +82,7 @@ class _AddMeetingPageState extends State<AddMeetingPage> {
             Row(children: [
               Expanded(
                   child: InputField(
-                title: "Start Time",
+                title: AppLocalizations.of(context)!.startTime,
                 hint: startTime,
                 widget: IconButton(
                     onPressed: () {
@@ -93,7 +98,7 @@ class _AddMeetingPageState extends State<AddMeetingPage> {
               ),
               Expanded(
                   child: InputField(
-                title: "End Time",
+                title: AppLocalizations.of(context)!.endTime,
                 hint: endTime,
                 widget: IconButton(
                     onPressed: () {
@@ -106,8 +111,9 @@ class _AddMeetingPageState extends State<AddMeetingPage> {
               )),
             ]),
             InputField(
-              title: "Remind",
-              hint: "$selectedRemind minutes early",
+              title: AppLocalizations.of(context)!.remind,
+              hint: "$selectedRemind " +
+                  AppLocalizations.of(context)!.minutesEarly,
               widget: DropdownButton(
                 icon: const Icon(
                   Icons.arrow_drop_down_outlined,
@@ -141,7 +147,11 @@ class _AddMeetingPageState extends State<AddMeetingPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 colorPallette(),
-                Button(label: "Create Reminder", onTap: () {})
+                Button(
+                    label: AppLocalizations.of(context)!.create +
+                        " " +
+                        AppLocalizations.of(context)!.meeting,
+                    onTap: () {})
               ],
             )
           ],
@@ -154,9 +164,9 @@ class _AddMeetingPageState extends State<AddMeetingPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          "Color",
-          style: TextStyle(
+        Text(
+          AppLocalizations.of(context)!.color,
+          style: const TextStyle(
               fontSize: 16, fontWeight: FontWeight.w400, color: Colors.black),
         ),
         const SizedBox(
@@ -205,7 +215,7 @@ class _AddMeetingPageState extends State<AddMeetingPage> {
         selectedDate = pickDate;
       });
     } else {
-      print("Something went wrong");
+      print(AppLocalizations.of(context)!.somethingWentWrong);
     }
   }
 
@@ -213,7 +223,7 @@ class _AddMeetingPageState extends State<AddMeetingPage> {
     var pickedTime = await _showTimePicker();
     String formattedTime = await pickedTime.format(context);
     if (pickedTime == null) {
-      print("Time Cancelled");
+      print(AppLocalizations.of(context)!.timeCancelled);
     } else if (isStartTime == true) {
       setState(() {
         startTime == formattedTime;

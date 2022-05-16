@@ -5,6 +5,7 @@ import 'package:sampleapp/pages/components/button.dart';
 import 'package:sampleapp/pages/components/inputField.dart';
 import 'package:sampleapp/pages/theme/theme.dart';
 import 'calenderPage.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddTaskPage extends StatefulWidget {
   static const String routeName = '/addTask';
@@ -29,10 +30,11 @@ class _AddTaskPageState extends State<AddTaskPage> {
 
   @override
   Widget build(BuildContext context) {
-    return uiBuild(context);
+    String title = AppLocalizations.of(context)!.addTask;
+    return uiBuild(context, title);
   }
 
-  Widget uiBuild(BuildContext context) {
+  Widget uiBuild(BuildContext context, String? title) {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -54,8 +56,8 @@ class _AddTaskPageState extends State<AddTaskPage> {
         child: Column(
           children: [
             Container(
-              child: const Text(
-                "Add Task",
+              child: Text(
+                title!,
                 style: TextStyle(
                     fontSize: 21,
                     fontWeight: FontWeight.w500,
@@ -63,10 +65,14 @@ class _AddTaskPageState extends State<AddTaskPage> {
               ),
               alignment: Alignment.topLeft,
             ),
-            const InputField(title: "Title", hint: "Enter title here!"),
-            const InputField(title: "Note", hint: "Enter your note!"),
             InputField(
-                title: "Date",
+                title: AppLocalizations.of(context)!.title,
+                hint: AppLocalizations.of(context)!.enterTitle),
+            InputField(
+                title: AppLocalizations.of(context)!.note,
+                hint: AppLocalizations.of(context)!.enterNote),
+            InputField(
+                title: AppLocalizations.of(context)!.date,
                 hint: DateFormat.yMd().format(selectedDate),
                 widget: IconButton(
                     onPressed: () {
@@ -79,7 +85,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
             Row(children: [
               Expanded(
                   child: InputField(
-                title: "Start Time",
+                title: AppLocalizations.of(context)!.startTime,
                 hint: startTime,
                 widget: IconButton(
                     onPressed: () {
@@ -95,7 +101,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
               ),
               Expanded(
                   child: InputField(
-                title: "End Time",
+                title: AppLocalizations.of(context)!.endTime,
                 hint: endTime,
                 widget: IconButton(
                     onPressed: () {
@@ -108,8 +114,9 @@ class _AddTaskPageState extends State<AddTaskPage> {
               )),
             ]),
             InputField(
-              title: "Remind",
-              hint: "$selectedRemind minutes early",
+              title: AppLocalizations.of(context)!.remind,
+              hint: "$selectedRemind " +
+                  AppLocalizations.of(context)!.minutesEarly,
               widget: DropdownButton(
                 icon: const Icon(
                   Icons.arrow_drop_down_outlined,
@@ -136,7 +143,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
               ),
             ),
             InputField(
-              title: "Repeat",
+              title: AppLocalizations.of(context)!.repeat,
               hint: selectedRepeat,
               widget: DropdownButton(
                 icon: const Icon(
@@ -175,7 +182,11 @@ class _AddTaskPageState extends State<AddTaskPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 colorPallette(),
-                Button(label: "Create Task", onTap: () {})
+                Button(
+                    label: AppLocalizations.of(context)!.create +
+                        " " +
+                        AppLocalizations.of(context)!.meeting,
+                    onTap: () {})
               ],
             )
           ],
@@ -188,9 +199,9 @@ class _AddTaskPageState extends State<AddTaskPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          "Color",
-          style: TextStyle(
+        Text(
+          AppLocalizations.of(context)!.color,
+          style: const TextStyle(
               fontSize: 16, fontWeight: FontWeight.w400, color: Colors.black),
         ),
         const SizedBox(
@@ -239,7 +250,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
         selectedDate = pickDate;
       });
     } else {
-      print("Something went wrong");
+      print(AppLocalizations.of(context)!.somethingWentWrong);
     }
   }
 
@@ -247,7 +258,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
     var pickedTime = await _showTimePicker();
     String formattedTime = await pickedTime.format(context);
     if (pickedTime == null) {
-      print("Time Cancelled");
+      print(AppLocalizations.of(context)!.timeCancelled);
     } else if (isStartTime == true) {
       setState(() {
         startTime == formattedTime;

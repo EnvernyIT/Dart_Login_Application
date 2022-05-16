@@ -6,12 +6,12 @@ import 'package:sampleapp/pages/routes/routes.dart';
 import 'package:sampleapp/pages/theme/theme.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'calenderPage.dart';
 
 class AddVerlofPage extends StatefulWidget {
   static const String routeName = '/addVerlof';
-  static const String title = 'Add Absence';
 
   const AddVerlofPage({Key? key}) : super(key: key);
 
@@ -66,9 +66,10 @@ class _AddVerlofPageState extends State<AddVerlofPage> {
     });
   }
 
-  Widget uiBuild(BuildContext context) {
+  Widget uiBuild(BuildContext context, String? title) {
     return Scaffold(
         appBar: AppBar(
+          title: Text(title!),
           elevation: 0,
           foregroundColor: RainbowTheme.primary_1,
           bottomOpacity: 0,
@@ -95,14 +96,19 @@ class _AddVerlofPageState extends State<AddVerlofPage> {
                       height: 20.0,
                     ),
                     Text(
-                      "Absence days left: " + daysString(),
+                      AppLocalizations.of(context)!.absence +
+                          " " +
+                          AppLocalizations.of(context)!.daysLeft +
+                          ": " +
+                          daysString(),
                       style: const TextStyle(color: Colors.black, fontSize: 23),
                     ),
                     Container(
                         margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                         height: 25,
                         child: Text(
-                          'From: ' +
+                          AppLocalizations.of(context)!.from +
+                              ": " +
                               DateFormat.yMMMMEEEEd().format(_startDate!),
                           style: const TextStyle(
                             fontSize: 16,
@@ -112,7 +118,9 @@ class _AddVerlofPageState extends State<AddVerlofPage> {
                         margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                         height: 25,
                         child: Text(
-                            'To: ' + DateFormat.yMMMMEEEEd().format(_endDate!),
+                            AppLocalizations.of(context)!.from +
+                                ": " +
+                                DateFormat.yMMMMEEEEd().format(_endDate!),
                             style: const TextStyle(
                               fontSize: 16,
                             ))),
@@ -142,7 +150,8 @@ class _AddVerlofPageState extends State<AddVerlofPage> {
                     ),
                     Container(
                       child: InputField(
-                          title: "Reason", hint: "Give a reason for absence"),
+                          title: AppLocalizations.of(context)!.reason,
+                          hint: AppLocalizations.of(context)!.giveReason),
                     ),
                     const SizedBox(
                       height: 20.0,
@@ -172,7 +181,7 @@ class _AddVerlofPageState extends State<AddVerlofPage> {
                             Icons.add,
                             size: 18,
                           ),
-                          label: const Text("Add Absence"),
+                          label: Text(AppLocalizations.of(context)!.addVerlof),
                         ),
                       ],
                     )
@@ -197,6 +206,7 @@ class _AddVerlofPageState extends State<AddVerlofPage> {
 
   @override
   Widget build(BuildContext context) {
-    return uiBuild(context);
+    String title = AppLocalizations.of(context)!.addVerlof;
+    return uiBuild(context, title);
   }
 }

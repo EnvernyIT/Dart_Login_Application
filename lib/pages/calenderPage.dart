@@ -1,5 +1,5 @@
 import 'dart:ui';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -21,7 +21,6 @@ class CalenderPage extends StatefulWidget {
           key: key,
         );
   static const String routeName = '/calender';
-  static const String title = "CALENDER";
 
   @override
   _CalenderPageState createState() => _CalenderPageState();
@@ -33,14 +32,15 @@ class _CalenderPageState extends State<CalenderPage> {
 
   @override
   Widget build(BuildContext context) {
-    return uiBuild(context);
+    String title = AppLocalizations.of(context)!.calendar;
+    return uiBuild(context, title);
   }
 
-  Widget uiBuild(BuildContext context) {
+  Widget uiBuild(BuildContext context, String? title) {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        title: const Text(CalenderPage.title),
+        title: Text(title!),
         actions: [
           IconButton(
             onPressed: () => NotificationApi.showScheduledNotification(
@@ -77,16 +77,19 @@ class _CalenderPageState extends State<CalenderPage> {
           agendaStyle: AgendaStyle(
             backgroundColor: RainbowTheme.secondary,
             appointmentTextStyle: TextStyle(
+                locale: Locale('en'),
                 fontSize: 14,
                 fontStyle: FontStyle.normal,
                 fontWeight: FontWeight.w500,
                 color: Colors.black),
             dateTextStyle: TextStyle(
+                locale: Locale('en'),
                 fontStyle: FontStyle.italic,
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
                 color: Colors.black),
             dayTextStyle: TextStyle(
+                locale: Locale('en'),
                 fontStyle: FontStyle.normal,
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
@@ -99,7 +102,8 @@ class _CalenderPageState extends State<CalenderPage> {
         showWeekNumber: true,
         weekNumberStyle: WeekNumberStyle(
             backgroundColor: RainbowTheme.primary_1,
-            textStyle: TextStyle(color: Colors.white, fontSize: 14)),
+            textStyle: TextStyle(
+                color: Colors.white, fontSize: 14, locale: Locale('en'))),
         // onTap: calendarTapped,
       ),
       floatingActionButton: SpeedDial(
@@ -123,7 +127,7 @@ class _CalenderPageState extends State<CalenderPage> {
             backgroundColor: RainbowTheme.secondary,
             foregroundColor: RainbowTheme.primary_1,
             child: const Icon(Icons.calendar_month_outlined),
-            label: 'Absence',
+            label: AppLocalizations.of(context)!.absence,
           ),
           SpeedDialChild(
             onTap: () =>
@@ -131,7 +135,7 @@ class _CalenderPageState extends State<CalenderPage> {
             backgroundColor: RainbowTheme.secondary,
             foregroundColor: RainbowTheme.primary_1,
             child: const Icon(Icons.meeting_room_outlined),
-            label: 'Meeting',
+            label: AppLocalizations.of(context)!.meeting,
           ),
           SpeedDialChild(
             onTap: () =>
@@ -139,7 +143,7 @@ class _CalenderPageState extends State<CalenderPage> {
             backgroundColor: RainbowTheme.secondary,
             foregroundColor: RainbowTheme.primary_1,
             child: const Icon(Icons.task),
-            label: 'Task',
+            label: AppLocalizations.of(context)!.task,
           ),
           SpeedDialChild(
             onTap: () =>
@@ -149,7 +153,7 @@ class _CalenderPageState extends State<CalenderPage> {
             child: const Icon(
               Icons.notification_add_outlined,
             ),
-            label: 'Reminder',
+            label: AppLocalizations.of(context)!.reminder,
           ),
         ],
       ),

@@ -39,7 +39,7 @@ class RainbowTheme {
 
   static const Color letter = Colors.black;
 
-  static const String fontFamily = 'Montserrat';
+  static const String fontFamilyPrimary = 'Roboto';
 
   static TextStyle colorTitle = TextStyle(
       fontFamily: 'Montserrat',

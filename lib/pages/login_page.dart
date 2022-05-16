@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:sampleapp/backend/api/ApiService.dart';
 import 'package:sampleapp/backend/models/LoginModel.dart';
 import 'package:sampleapp/backend/models/UserModel.dart';
@@ -6,6 +7,9 @@ import 'package:sampleapp/pages/components/progressHUD.dart';
 import 'package:sampleapp/pages/calenderPage.dart';
 import 'package:sampleapp/pages/theme/theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import '../main.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({
@@ -29,21 +33,24 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  late LoginRequestModel requestModel;
-  bool isApiCallProcess = false;
-  String value = "English";
-  var items = [
-    'Nederlands',
-    'English',
-  ];
-
   @override
   void initState() {
     super.initState();
     requestModel = LoginRequestModel();
     _loadUrlUsernameAndPassword();
+    // setLanguage();
   }
 
+  late LoginRequestModel requestModel;
+  bool isApiCallProcess = false;
+  String languageValue = GetStorage("data").read("language") != null
+      ? GetStorage("data").read("language").toString()
+      : "English";
+  var items = [
+    'Nederlands',
+    'English',
+  ];
+  late String langCode;
   @override
   Widget build(BuildContext context) {
     return ProgressHUD(
@@ -51,6 +58,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget uiBuild(BuildContext context) {
+    GetStorage get = GetStorage("data");
     return Scaffold(
         key: scaffoldKey,
         backgroundColor: RainbowTheme.primary_1,
@@ -88,8 +96,13 @@ class _LoginPageState extends State<LoginPage> {
                           height: 20,
                         ),
                         Text(
-                          "Welcome",
-                          style: RainbowTheme.colorTitle,
+                          AppLocalizations.of(context)!.welcome,
+                          style: TextStyle(
+                              fontFamily: RainbowTheme.fontFamilyPrimary,
+                              color: RainbowTheme.primary_1,
+                              fontSize: 25,
+                              height: 1,
+                              fontWeight: FontWeight.w600),
                         ),
                         const SizedBox(
                           height: 20,
@@ -100,11 +113,11 @@ class _LoginPageState extends State<LoginPage> {
                           onSaved: (input) => requestModel.url = input,
                           validator: (input) {
                             if (input == null) {
-                              return "Please give url-link";
+                              return AppLocalizations.of(context)!.giveLink;
                             }
                           },
                           decoration: InputDecoration(
-                            hintText: "URL",
+                            hintText: AppLocalizations.of(context)!.url,
                             enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
                                 color: RainbowTheme.primary_1.withOpacity(0.2),
@@ -128,11 +141,11 @@ class _LoginPageState extends State<LoginPage> {
                           onSaved: (input) => requestModel.username = input,
                           validator: (input) {
                             if (input == null) {
-                              return "This username should exist";
+                              return AppLocalizations.of(context)!.giveUsername;
                             }
                           },
                           decoration: InputDecoration(
-                            hintText: "Username",
+                            hintText: AppLocalizations.of(context)!.username,
                             enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
                                 color: RainbowTheme.primary_1.withOpacity(0.2),
@@ -157,13 +170,14 @@ class _LoginPageState extends State<LoginPage> {
                           onSaved: (input) => requestModel.password = input,
                           validator: (input) {
                             if (input == null || input.length < 3) {
-                              return "This password should be more than 3 characters";
+                              return AppLocalizations.of(context)!
+                                  .passwordCharacters;
                             }
                             return null;
                           },
                           obscureText: hidePassword,
                           decoration: InputDecoration(
-                            hintText: "Password",
+                            hintText: AppLocalizations.of(context)!.password,
                             enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
                                 color: RainbowTheme.primary_1.withOpacity(0.2),
@@ -195,34 +209,48 @@ class _LoginPageState extends State<LoginPage> {
                           height: 30,
                         ),
                         DropdownButton(
-                            value: value,
-                            icon: const Padding(
-                                //Icon at tail, arrow bottom is default icon
-                                padding: EdgeInsets.only(left: 20),
-                                child: Icon(Icons.arrow_circle_down_sharp)),
-                            iconEnabledColor:
-                                RainbowTheme.primary_1, //Icon color
-                            style: TextStyle(
-                                color: RainbowTheme.primary_1, //Font color
-                                fontSize: 17 //font size on dropdown button
-                                ),
-                            dropdownColor: RainbowTheme
-                                .secondary, //dropdown background color
-                            underline: Container(), //remove underline
-                            isExpanded: false, //make true to make width 100%
-
-                            // Array list of items
-                            items: items.map((String items) {
-                              return DropdownMenuItem(
-                                value: items,
-                                child: Text(items),
+                          value: languageValue,
+                          icon: const Padding(
+                              //Icon at tail, arrow bottom is default icon
+                              padding: EdgeInsets.only(left: 20),
+                              child: Icon(Icons.arrow_circle_down_sharp)),
+                          iconEnabledColor: RainbowTheme.primary_1, //Icon color
+                          style: TextStyle(
+                              color: RainbowTheme.primary_1, //Font color
+                              fontSize: 17 //font size on dropdown button
+                              ),
+                          dropdownColor: RainbowTheme
+                              .secondary, //dropdown background color
+                          underline: Container(), //remove underline
+                          isExpanded: false, //make true to make width 100%
+                          items: items.map((String items) {
+                            return DropdownMenuItem(
+                              value: items,
+                              child: Text(items),
+                            );
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              languageValue = newValue!;
+                              if (languageValue == "Nederlands") {
+                                MyApp.of(context)?.setLocale(
+                                    const Locale.fromSubtags(
+                                        languageCode: 'nl'));
+                              }
+                              if (languageValue == "English") {
+                                MyApp.of(context)?.setLocale(
+                                    const Locale.fromSubtags(
+                                        languageCode: 'en'));
+                              }
+                              langCode = newValue;
+                              SharedPreferences.getInstance().then(
+                                (prefs) {
+                                  prefs.setString('language', newValue);
+                                },
                               );
-                            }).toList(),
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                value = newValue!;
-                              });
-                            }),
+                            });
+                          },
+                        ),
                         const SizedBox(
                           height: 30,
                         ),
@@ -270,8 +298,9 @@ class _LoginPageState extends State<LoginPage> {
                                   setState(() {
                                     isApiCallProcess = false;
                                   });
-                                  const snackBar = SnackBar(
-                                    content: Text("Login Successfull!"),
+                                  SnackBar snackBar = SnackBar(
+                                    content: Text(AppLocalizations.of(context)!
+                                        .loginSuccesful),
                                   );
                                   ScaffoldMessenger.of(context)
                                       .showSnackBar(snackBar);
@@ -284,8 +313,9 @@ class _LoginPageState extends State<LoginPage> {
                                   setState(() {
                                     isApiCallProcess = false;
                                   });
-                                  const snackBar = SnackBar(
-                                    content: Text("Login Unsucessfull!"),
+                                  SnackBar snackBar = SnackBar(
+                                    content: Text(AppLocalizations.of(context)!
+                                        .loginUnSuccessful),
                                     backgroundColor: Colors.redAccent,
                                   );
                                   ScaffoldMessenger.of(context)
@@ -294,8 +324,8 @@ class _LoginPageState extends State<LoginPage> {
                               });
                             }
                           }),
-                          child: const Text(
-                            'Sign In',
+                          child: Text(
+                            AppLocalizations.of(context)!.signIn,
                             style: TextStyle(color: Colors.white),
                           ),
                         ),
@@ -306,7 +336,7 @@ class _LoginPageState extends State<LoginPage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "Remember Me",
+                              AppLocalizations.of(context)!.rememberMe,
                               style: TextStyle(
                                   color: RainbowTheme.primary_1, //Font color
                                   fontSize: 17 //font size on dropdown button
@@ -344,6 +374,7 @@ class _LoginPageState extends State<LoginPage> {
         prefs.setString('url', _urlController.text);
         prefs.setString('username', _usernameController.text);
         prefs.setString('password', _passwordController.text);
+        prefs.setString('language', langCode);
       },
     );
     setState(() {
@@ -353,6 +384,7 @@ class _LoginPageState extends State<LoginPage> {
 
   //load email and password
   void _loadUrlUsernameAndPassword() async {
+    int? i;
     try {
       // SharedPreferences _prefs = await SharedPreferences.getInstance();
       SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -360,10 +392,9 @@ class _LoginPageState extends State<LoginPage> {
       var _username = preferences.getString("username") ?? "";
       var _password = preferences.getString("password") ?? "";
       var _rememberMe = preferences.getBool("remember_me") ?? false;
-      // print(_rememberMe);
-      // print(_url);
-      // print(_username);
-      // print(_password);
+      var _langCode = preferences.getString("language") ?? "English";
+      var _theme = preferences.getInt("theme");
+      // print(_langCode);
       if (_rememberMe) {
         setState(() {
           checkedValue = true;
@@ -371,6 +402,51 @@ class _LoginPageState extends State<LoginPage> {
         _urlController.text = _url;
         _usernameController.text = _username;
         _passwordController.text = _password;
+        langCode = _langCode;
+        languageValue = _langCode;
+        i = _theme;
+      }
+
+      if (_langCode != null) {
+        if (_langCode == "Nederlands") {
+          MyApp.of(context)
+              ?.setLocale(const Locale.fromSubtags(languageCode: 'nl'));
+        } else if (_langCode == "English") {
+          MyApp.of(context)
+              ?.setLocale(const Locale.fromSubtags(languageCode: 'en'));
+        }
+      }
+
+      if (i == 1) {
+        setState(() {
+          RainbowTheme.primary_1 = Colors.blueAccent;
+          RainbowTheme.variant = Colors.blue;
+          RainbowTheme.primary_2 = Colors.blueAccent;
+        });
+      } else if (i == 2) {
+        setState(() {
+          RainbowTheme.primary_1 = Colors.green;
+          RainbowTheme.variant = Colors.greenAccent;
+          RainbowTheme.primary_2 = Colors.lightGreen;
+        });
+      } else if (i == 3) {
+        setState(() {
+          RainbowTheme.primary_1 = Colors.black;
+          RainbowTheme.variant = Colors.grey;
+          RainbowTheme.primary_2 = Colors.black;
+        });
+      } else if (i == 4) {
+        setState(() {
+          RainbowTheme.primary_1 = Colors.purpleAccent;
+          RainbowTheme.variant = Colors.purple;
+          RainbowTheme.primary_2 = Colors.deepPurple;
+        });
+      } else {
+        setState(() {
+          RainbowTheme.primary_1 = Colors.blueAccent;
+          RainbowTheme.variant = Colors.blue;
+          RainbowTheme.primary_2 = Colors.blueAccent;
+        });
       }
     } catch (e) {
       print(e);
@@ -386,5 +462,39 @@ class _LoginPageState extends State<LoginPage> {
       }
     }
     return false;
+  }
+
+  void colorCoding(int i) {
+    if (i == 1) {
+      setState(() {
+        RainbowTheme.primary_1 = Colors.blueAccent;
+        RainbowTheme.variant = Colors.blue;
+        RainbowTheme.primary_2 = Colors.blueAccent;
+      });
+    } else if (i == 2) {
+      setState(() {
+        RainbowTheme.primary_1 = Colors.green;
+        RainbowTheme.variant = Colors.greenAccent;
+        RainbowTheme.primary_2 = Colors.lightGreen;
+      });
+    } else if (i == 3) {
+      setState(() {
+        RainbowTheme.primary_1 = Colors.black;
+        RainbowTheme.variant = Colors.grey;
+        RainbowTheme.primary_2 = Colors.black;
+      });
+    } else if (i == 4) {
+      setState(() {
+        RainbowTheme.primary_1 = Colors.purpleAccent;
+        RainbowTheme.variant = Colors.purple;
+        RainbowTheme.primary_2 = Colors.deepPurple;
+      });
+    } else {
+      setState(() {
+        RainbowTheme.primary_1 = Colors.blueAccent;
+        RainbowTheme.variant = Colors.blue;
+        RainbowTheme.primary_2 = Colors.blueAccent;
+      });
+    }
   }
 }

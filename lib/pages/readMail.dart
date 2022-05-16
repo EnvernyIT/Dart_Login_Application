@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:sampleapp/pages/mailpage.dart';
 import 'package:sampleapp/pages/theme/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../backend/models/MailModel.dart';
 import 'calenderPage.dart';
@@ -10,7 +11,6 @@ import 'components/bottomReadMailBar.dart';
 
 class ReadMailPage extends StatefulWidget {
   static const String routeName = '/readMail';
-  static const String title = 'Mail';
   InboxObject? io;
   ReadMailPage({Key? key, this.io})
       : super(
@@ -28,10 +28,11 @@ class _ReadMailPageState extends State<ReadMailPage> {
   }
 
   Widget uiBuild(BuildContext context) {
+    String title = AppLocalizations.of(context)!.mail;
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
-          title: const Text("Mail"),
+          title: Text(title),
           foregroundColor: RainbowTheme.primary_1,
           bottomOpacity: 0,
           backgroundColor: RainbowTheme.secondary,
@@ -109,7 +110,7 @@ class _ReadMailPageState extends State<ReadMailPage> {
                   alignment: Alignment.topLeft,
                   padding: const EdgeInsets.all(15.0),
                   child: Text(
-                    widget.io?.body ?? "No message to show!",
+                    widget.io?.body ?? AppLocalizations.of(context)!.noMessage,
                     style: const TextStyle(
                         color: Colors.black,
                         fontSize: 15.0,

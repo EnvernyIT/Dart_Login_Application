@@ -8,12 +8,12 @@ import 'package:path_provider/path_provider.dart';
 
 import 'package:sampleapp/pages/components/mailText.dart';
 import 'package:sampleapp/pages/theme/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'mailpage.dart';
 
 class SendMailPage extends StatefulWidget {
   static const String routeName = '/sendMail';
-  static const String title = 'Send';
 
   SendMailPage({Key? key}) : super(key: key);
 
@@ -29,11 +29,12 @@ class _SendMailPageState extends State<SendMailPage> {
   }
 
   Widget uiBuild(BuildContext context) {
+    String title = AppLocalizations.of(context)!.addMeeting;
     TextEditingController controller;
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
-          title: const Text(SendMailPage.title),
+          title: Text(title),
           foregroundColor: RainbowTheme.primary_1,
           bottomOpacity: 0,
           backgroundColor: RainbowTheme.secondary,
@@ -68,9 +69,9 @@ class _SendMailPageState extends State<SendMailPage> {
           const SizedBox(
             height: 20,
           ),
-          const Text(
-            "Write an email",
-            style: TextStyle(
+          Text(
+            AppLocalizations.of(context)!.writeEmail,
+            style: const TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.w600,
               fontSize: 21,
@@ -80,7 +81,7 @@ class _SendMailPageState extends State<SendMailPage> {
             height: 15,
           ),
           MailTextField(
-            title: "To:",
+            title: AppLocalizations.of(context)!.to + ": ",
             textType: TextInputType.emailAddress,
             widget: IconButton(
                 onPressed: () {
@@ -100,20 +101,20 @@ class _SendMailPageState extends State<SendMailPage> {
           ),
           show == true
               ? MailTextField(
-                  title: "CC:",
+                  title: AppLocalizations.of(context)!.cc,
                   textType: TextInputType.text,
                   icon: Icon(Icons.person_outline, color: RainbowTheme.variant),
                 )
               : Container(),
           show == true
               ? MailTextField(
-                  title: "bCC:",
+                  title: AppLocalizations.of(context)!.bCC,
                   textType: TextInputType.text,
                   icon: Icon(Icons.person_outline, color: RainbowTheme.variant),
                 )
               : Container(),
           MailTextField(
-            title: "Subject:",
+            title: AppLocalizations.of(context)!.subject + ":",
             textType: TextInputType.text,
             icon: Icon(Icons.subject_outlined, color: RainbowTheme.variant),
           ),
@@ -131,7 +132,7 @@ class _SendMailPageState extends State<SendMailPage> {
                         .multiline, // user keyboard will have a button to move cursor to next line
                     textInputAction: TextInputAction.newline,
                     decoration: InputDecoration(
-                      hintText: "Write",
+                      hintText: AppLocalizations.of(context)!.write,
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
                             color: RainbowTheme.primary_1.withOpacity(0.2)),

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sampleapp/backend/model/UserModel.dart';
+import 'package:sampleapp/backend/models/UserModel.dart';
 import '../routes/routes.dart';
 import '../theme/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NavBar extends StatelessWidget {
   NavBar({Key? key}) : super(key: key);
@@ -24,35 +25,35 @@ class NavBar extends StatelessWidget {
           // createUserName(),
           createDrawerItem(
             icon: Icons.calendar_month_outlined,
-            text: 'Calender',
+            text: AppLocalizations.of(context)!.calender,
             onTap: () =>
                 Navigator.pushReplacementNamed(context, Routes.calendar),
           ),
           createDrawerItem(
             icon: Icons.mail_outline,
-            text: 'Mail',
+            text: AppLocalizations.of(context)!.mail,
             onTap: () => Navigator.pushReplacementNamed(context, Routes.mail),
           ),
           createDrawerItem(
             icon: Icons.event_outlined,
-            text: 'Events',
+            text: AppLocalizations.of(context)!.events,
             onTap: () => Navigator.pushReplacementNamed(context, Routes.events),
           ),
           createDrawerItem(
             icon: Icons.person_outline_outlined,
-            text: 'Profile',
+            text: AppLocalizations.of(context)!.profile,
             onTap: () =>
                 Navigator.pushReplacementNamed(context, Routes.profile),
           ),
           createDrawerItem(
             icon: Icons.settings_outlined,
-            text: 'Settings',
+            text: AppLocalizations.of(context)!.settings,
             onTap: () =>
                 Navigator.pushReplacementNamed(context, Routes.settings),
           ),
           createDrawerItem(
               icon: Icons.logout_outlined,
-              text: 'Logout',
+              text: AppLocalizations.of(context)!.logout,
               onTap: () => {
                     Navigator.pushReplacementNamed(context, Routes.login),
                   }),
@@ -77,35 +78,35 @@ class NavBar extends StatelessWidget {
           // createUserName(),
           createDrawerItem(
             icon: Icons.calendar_month_outlined,
-            text: 'Calendar',
+            text: AppLocalizations.of(context)!.calender,
             onTap: () =>
                 Navigator.pushReplacementNamed(context, Routes.calendar),
           ),
           createDrawerItem(
             icon: Icons.mail_outline,
-            text: 'Mail',
+            text: AppLocalizations.of(context)!.mail,
             onTap: () => Navigator.pushReplacementNamed(context, Routes.mail),
           ),
           createDrawerItem(
             icon: Icons.calendar_month_outlined,
-            text: 'Events',
+            text: AppLocalizations.of(context)!.events,
             onTap: () => Navigator.pushReplacementNamed(context, Routes.events),
           ),
           createDrawerItem(
             icon: Icons.person_outline,
-            text: 'Profile',
+            text: AppLocalizations.of(context)!.profile,
             onTap: () =>
                 Navigator.pushReplacementNamed(context, Routes.profile),
           ),
           createDrawerItem(
             icon: Icons.settings_outlined,
-            text: 'Settings',
+            text: AppLocalizations.of(context)!.settings,
             onTap: () =>
                 Navigator.pushReplacementNamed(context, Routes.settings),
           ),
           createDrawerItem(
             icon: Icons.logout_outlined,
-            text: 'Logout',
+            text: AppLocalizations.of(context)!.logout,
             onTap: () {
               Navigator.pushReplacementNamed(context, Routes.login);
             },
@@ -181,7 +182,7 @@ class NavBar extends StatelessWidget {
       title: Row(children: <Widget>[
         Icon(
           icon,
-          color: RainbowTheme.dark_primary,
+          color: RainbowTheme.primary_1,
         ),
         Padding(
           padding: const EdgeInsets.only(left: 8.0),

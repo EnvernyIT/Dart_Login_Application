@@ -5,10 +5,10 @@ import 'package:sampleapp/pages/components/button.dart';
 import 'package:sampleapp/pages/components/inputField.dart';
 import 'package:sampleapp/pages/theme/theme.dart';
 import 'calenderPage.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddReminderPage extends StatefulWidget {
   static const String routeName = '/addReminder';
-  static const String title = 'Add Reminder';
 
   const AddReminderPage({Key? key}) : super(key: key);
 
@@ -29,10 +29,11 @@ class _AddReminderPageState extends State<AddReminderPage> {
 
   @override
   Widget build(BuildContext context) {
-    return uiBuild(context);
+    String title = AppLocalizations.of(context)!.addReminder;
+    return uiBuild(context, title);
   }
 
-  Widget uiBuild(BuildContext context) {
+  Widget uiBuild(BuildContext context, String? title) {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -54,8 +55,8 @@ class _AddReminderPageState extends State<AddReminderPage> {
         child: Column(
           children: [
             Container(
-              child: const Text(
-                "Add Reminder",
+              child: Text(
+                title!,
                 style: TextStyle(
                     fontSize: 21,
                     fontWeight: FontWeight.w500,
@@ -63,10 +64,14 @@ class _AddReminderPageState extends State<AddReminderPage> {
               ),
               alignment: Alignment.topLeft,
             ),
-            const InputField(title: "Title", hint: "Enter title here!"),
-            const InputField(title: "Note", hint: "Enter your note!"),
             InputField(
-                title: "Date",
+                title: AppLocalizations.of(context)!.title,
+                hint: AppLocalizations.of(context)!.enterTitle),
+            InputField(
+                title: AppLocalizations.of(context)!.note,
+                hint: AppLocalizations.of(context)!.enterNote),
+            InputField(
+                title: AppLocalizations.of(context)!.date,
                 hint: DateFormat.yMd().format(selectedDate),
                 widget: IconButton(
                     onPressed: () {
@@ -79,7 +84,7 @@ class _AddReminderPageState extends State<AddReminderPage> {
             Row(children: [
               Expanded(
                   child: InputField(
-                title: "Time",
+                title: AppLocalizations.of(context)!.time,
                 hint: startTime,
                 widget: IconButton(
                     onPressed: () {
@@ -92,7 +97,7 @@ class _AddReminderPageState extends State<AddReminderPage> {
               )),
             ]),
             InputField(
-              title: "Repeat",
+              title: AppLocalizations.of(context)!.repeat,
               hint: selectedRepeat,
               widget: DropdownButton(
                 icon: const Icon(
@@ -131,7 +136,11 @@ class _AddReminderPageState extends State<AddReminderPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 colorPallette(),
-                Button(label: "Create Reminder", onTap: () {})
+                Button(
+                    label: AppLocalizations.of(context)!.create +
+                        " " +
+                        AppLocalizations.of(context)!.reminder,
+                    onTap: () {})
               ],
             )
           ],
@@ -144,9 +153,9 @@ class _AddReminderPageState extends State<AddReminderPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          "Color",
-          style: TextStyle(
+        Text(
+          AppLocalizations.of(context)!.color,
+          style: const TextStyle(
               fontSize: 16, fontWeight: FontWeight.w400, color: Colors.black),
         ),
         const SizedBox(
@@ -195,7 +204,7 @@ class _AddReminderPageState extends State<AddReminderPage> {
         selectedDate = pickDate;
       });
     } else {
-      print("Something went wrong");
+      print(AppLocalizations.of(context)!.somethingWentWrong);
     }
   }
 
@@ -203,7 +212,7 @@ class _AddReminderPageState extends State<AddReminderPage> {
     var pickedTime = await _showTimePicker();
     String formattedTime = await pickedTime.format(context);
     if (pickedTime == null) {
-      print("Time Cancelled");
+      print(AppLocalizations.of(context)!.timeCancelled);
     } else if (isStartTime == true) {
       setState(() {
         startTime == formattedTime;
